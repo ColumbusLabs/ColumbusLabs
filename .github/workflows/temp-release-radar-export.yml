@@ -1,0 +1,30 @@
+name: Temporary Release Radar Research Export
+
+on:
+  push:
+    paths:
+      - '.github/workflows/temp-release-radar-export.yml'
+  workflow_dispatch:
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Download research export
+        env:
+          EXPORT_URL: "https://lwbmvnfirzseuipdzolx.supabase.co/functions/v1/historical-backfill-research?download=Fru9rhti6GCNEtFV3Ep60KUeutKTQZNjgdgc8eFZtkc"
+        run: |
+          set -euo pipefail
+          curl --fail --show-error --silent --location "$EXPORT_URL" \
+            --output release-radar-historical-all.ndjson
+          test -s release-radar-historical-all.ndjson
+          wc -c release-radar-historical-all.ndjson
+
+      - name: Upload research artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-radar-historical-all
+          path: release-radar-historical-all.ndjson
+          if-no-files-found: error
+          retention-days: 1
