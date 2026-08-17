@@ -28,3 +28,5 @@ jobs:
           path: release-radar-historical-all.ndjson
           if-no-files-found: error
           retention-days: 1
+
+# Temporary one-run bridge; remove after the artifact is downloaded.
