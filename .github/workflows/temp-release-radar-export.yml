@@ -11,22 +11,28 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: Download research export
+      - name: Download research exports
         env:
-          EXPORT_URL: "https://lwbmvnfirzseuipdzolx.supabase.co/functions/v1/historical-backfill-research?download=Fru9rhti6GCNEtFV3Ep60KUeutKTQZNjgdgc8eFZtkc"
+          HISTORICAL_EXPORT_URL: "https://lwbmvnfirzseuipdzolx.supabase.co/functions/v1/historical-backfill-research?download=Fru9rhti6GCNEtFV3Ep60KUeutKTQZNjgdgc8eFZtkc"
+          AWARDS_EXPORT_URL: "https://lwbmvnfirzseuipdzolx.supabase.co/functions/v1/historical-backfill-awards-export"
         run: |
           set -euo pipefail
-          curl --fail --show-error --silent --location "$EXPORT_URL" \
+          curl --fail --show-error --silent --location "$HISTORICAL_EXPORT_URL" \
             --output release-radar-historical-all.ndjson
+          curl --fail --show-error --silent --location "$AWARDS_EXPORT_URL" \
+            --output release-radar-award-signals.ndjson
           test -s release-radar-historical-all.ndjson
-          wc -c release-radar-historical-all.ndjson
+          test -s release-radar-award-signals.ndjson
+          wc -c release-radar-historical-all.ndjson release-radar-award-signals.ndjson
 
-      - name: Upload research artifact
+      - name: Upload research artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: release-radar-historical-all
-          path: release-radar-historical-all.ndjson
+          name: release-radar-research-exports
+          path: |
+            release-radar-historical-all.ndjson
+            release-radar-award-signals.ndjson
           if-no-files-found: error
           retention-days: 1
 
-# Temporary one-run bridge; remove after the artifact is downloaded.
+# Temporary one-run bridge; remove after the artifacts are downloaded.
