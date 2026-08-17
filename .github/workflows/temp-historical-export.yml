@@ -1,0 +1,24 @@
+name: Temporary historical export
+on:
+  push:
+    paths:
+      - '.github/workflows/temp-historical-export.yml'
+  workflow_dispatch:
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download completed historical dataset
+        run: |
+          curl --fail --silent --show-error --location \
+            'https://lwbmvnfirzseuipdzolx.supabase.co/functions/v1/historical-backfill-research?download=rr-export-20260817-v4-A8cZ6mX2qK9pR7wN' \
+            --output release-radar-historical-final.ndjson
+          test -s release-radar-historical-final.ndjson
+          test "$(wc -l < release-radar-historical-final.ndjson)" -eq 76
+      - name: Upload dataset
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-radar-historical-final
+          path: release-radar-historical-final.ndjson
+          if-no-files-found: error
