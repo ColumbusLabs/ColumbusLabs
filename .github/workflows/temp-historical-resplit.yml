@@ -1,0 +1,31 @@
+name: Temporary historical resplit
+on:
+  push:
+    paths:
+      - '.github/workflows/temp-historical-resplit.yml'
+permissions:
+  contents: write
+jobs:
+  resplit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Re-split encoded archive
+        run: |
+          mkdir -p transfer-small
+          cat transfer/release-radar-historical-backfill-1950-2025.zip.b64.part-* > /tmp/archive.b64
+          rm -f transfer-small/release-radar-historical-backfill-1950-2025.zip.b64.part-*
+          split -b 50000 -d -a 3 /tmp/archive.b64 transfer-small/release-radar-historical-backfill-1950-2025.zip.b64.part-
+          python - <<'PY'
+          import json, glob
+          parts=sorted(glob.glob('transfer-small/release-radar-historical-backfill-1950-2025.zip.b64.part-*'))
+          json.dump({'parts':len(parts),'part_size_max':50000},open('transfer-small/manifest.json','w'),indent=2)
+          open('transfer-small/manifest.json','a').write('\n')
+          PY
+      - name: Commit smaller chunks
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add transfer-small
+          git commit -m 'Temporary smaller historical backfill transfer chunks'
+          git push
