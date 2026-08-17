@@ -1,0 +1,24 @@
+name: Temporary historical cleanup
+on:
+  push:
+    paths:
+      - '.github/workflows/temp-historical-cleanup.yml'
+permissions:
+  contents: write
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Remove temporary transfer files and workflows
+        run: |
+          git rm -rf --ignore-unmatch transfer transfer-small
+          git rm -f --ignore-unmatch \
+            .github/workflows/temp-historical-export.yml \
+            .github/workflows/temp-historical-resplit.yml \
+            .github/workflows/temp-historical-artifact.yml \
+            .github/workflows/temp-historical-cleanup.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'Remove temporary historical export machinery'
+          git push
