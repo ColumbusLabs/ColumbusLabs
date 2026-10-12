@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://columbus-labs.com">
-    <img src="https://columbus-labs.com/brand/lab-portal.png" alt="Columbus Labs" width="320">
+    <img src="assets/columbus-labs-banner.png" alt="Columbus Labs" width="800">
   </a>
 </p>
 
