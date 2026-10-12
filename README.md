@@ -15,7 +15,7 @@
 | [Generalized stack sorting](https://github.com/ColumbusLabs/generalized-stack-sorting) | Algebraic generating functions, permutation bases, and formal proofs. |
 | [Interval-closed rowmotion](https://github.com/ColumbusLabs/interval-closed-rowmotion) | Periodicity asymptotics and formal proofs for rectangular posets. |
 
-These repositories are being prepared for publication. Papers, code, licenses, and Lean proofs will be added after final review.
+Papers, code, licenses, and Lean sources are available in these repositories. Each README explains the results, reproduction instructions, and scope of formal verification.
 
 ## Software
 
@@ -34,7 +34,7 @@ These repositories are being prepared for publication. Papers, code, licenses, a
 
 ## Open source
 
-We contribute focused fixes to projects we use and respect. Recent merged contributions include [Black](https://github.com/psf/black/pull/5259), [The Algorithms](https://github.com/TheAlgorithms/Python/pull/15406), and [Flit](https://github.com/pypa/flit/pull/810). Some repositories on this account are contribution forks supporting open upstream pull requests.
+We contribute focused fixes to projects we use and respect. Selected merged contributions include [Black](https://github.com/psf/black/pull/5259), [The Algorithms](https://github.com/TheAlgorithms/Python/pull/15406), and [Flit](https://github.com/pypa/flit/pull/810). Some repositories on this account are contribution forks supporting open upstream pull requests.
 
 ## Contact
 
